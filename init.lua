@@ -734,7 +734,6 @@ do
   ---@type table<string, vim.lsp.Config>
   local servers = {
      clangd = {},
-     gopls = {},
      pyright = {},
      tsc = {},
     
@@ -909,6 +908,7 @@ do
     },
 
     completion = {
+      menu = {auto_show = true},
       -- By default, you may press `<c-space>` to show the documentation.
       -- Optionally, set `auto_show = true` to show the documentation after a delay.
       documentation = { auto_show = false, auto_show_delay_ms = 500 },
@@ -1034,6 +1034,36 @@ do
   -- require 'custom.plugins.ui'
   -- require 'custom.plugins.git'
 end
-
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
+-- remap jk to normal mode
+vim.keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode" })
+-- yank into windows clipboard
+vim.opt.clipboard = "unnamedplus"
+
+vim.pack.add({
+  'https://github.com/nvim-java/nvim-java',
+  'https://github.com/MunifTanjim/nui.nvim',
+  'https://github.com/mfussenegger/nvim-dap',
+  'https://github.com/JavaHello/spring-boot.nvim',
+  'https://github.com/Saghen/blink.cmp',
+  'https://github.com/mason-org/mason.nvim',
+})
+
+require('mason').setup({
+  registries = {
+    'github:nvim-java/mason-registry',
+    'github:mason-org/mason-registry',
+  },
+})
+require('java').setup({
+  root_markers = {
+    '.git',
+    'pom.xml',
+    'build.gradle',
+    'settings.gradle',
+    'mvnw',
+    'gradlew',
+  },
+})
+vim.lsp.enable('jdtls')
